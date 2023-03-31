@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_templatetag %}
+{% is_liked new.id as is_liked_bool %}
+{% if is_liked_bool %}
+	{% blog_likes_id new.id as blog_likes_id %}
+{% endif %}
+{% block main %}
+
+<div class="site-section">
+	<div class="container">
+		
+	  <div class="row mb-5">
+		
+		<div class="col-md-9 order-2">
+			
+
+		  <div class="row mb-5">
+			{% for prods in page_obj %}
+			<div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+				
+			  <div class="block-4 text-center border">
+				<figure class="block-4-image">
+				  <a href="{{ prods.get_absolute_url }}"><img src="{{prods.image.url}}" alt="Image placeholder" class="img-fluid"></a>
+				</figure>
+				<div class="block-4-text p-4">
+				  <h3><a href="{{ prods.get_absolute_url }}">{{prods.name}}</a></h3>
+				  <!-- <p class="mb-0">Finding perfect t-shirt</p> -->
+				  <p class="text-primary font-weight-bold">{{prods.price}} - ₽</p>
+				  <form class="add-to-cart text-center py-2 mr-1" action="{% url 'category:adds'%}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="blog_post_id" value="{{prods.id}}">
+					<input type="hidden" name="user_id" value="{% if user.is_authenticated %}{{request.user.id}}{% else %}None{% endif %}">
+					<input type="hidden" name="url_from" value="{{request.path}}">
+					<a href="{{ prods.get_absolute_url }}" class="btn btn-green add-to-cart">Подробнее</a>
+					<!-- <a href="" class="add-to-cart text-center py-2 mr-1"> -->
+						<span>
+							
+								<button class="buy-now text-center btn btn-sm btn-primary" type="submit">Добавить в корзину</button>
+						
+						</span>
+						
+					<!-- </a>	 -->
+				</form>
+				</div>
+				
+			</div>
+
+			  
+			</div>
+			{%endfor%}  
+
+
+		  </div>
+		  
+		  <div class="row" data-aos="fade-up">
+			<div class="col-md-12 text-center">
+			  <div class="site-block-27">
+				<ul>
+					{% if page_obj.has_previous %}
+					<li>
+						<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+					</li>
+					{% endif %}
+				
+						<span class="current">
+							<li class="active"><span>{{ page_obj.number }}</span></li>
+							
+						</span>
+				
+						{% if page_obj.has_next %}
+						<li>
+							<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+						</li>
+						{% endif %}
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		  
+		</div>
+		
+		
+
+		<div class="col-md-3 order-1 mb-5 mb-md-0">
+		 <h2 class="heading mb-4"><a href="#">Фильтры</a></h2>
+					<ul>
+						<li>
+							<form method="get">
+								{{ filter.form.as_p }}
+								<input type="submit" class="btn btn-default add-to-cart" value="Применить" ></input>
+
+							</form>
+						</li>
+					</ul>
+		</div>
+	  </div>
+
+	  <div class="row">
+		<!-- <div class="col-md-12">
+		  <div class="site-section site-blocks-2">
+			  <div class="row justify-content-center text-center mb-5">
+				<div class="col-md-7 site-section-heading pt-4">
+				  <h2>Categories</h2>
+				</div>
+			  </div>
+			  <div class="row">
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+				  <a class="block-2-item" href="#">
+					<figure class="image">
+					  <img src="images/women.jpg" alt="" class="img-fluid">
+					</figure>
+					<div class="text">
+					  <span class="text-uppercase">Collections</span>
+					  <h3>Women</h3>
+					</div>
+				  </a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
+				  <a class="block-2-item" href="#">
+					<figure class="image">
+					  <img src="images/children.jpg" alt="" class="img-fluid">
+					</figure>
+					<div class="text">
+					  <span class="text-uppercase">Collections</span>
+					  <h3>Children</h3>
+					</div>
+				  </a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
+				  <a class="block-2-item" href="#">
+					<figure class="image">
+					  <img src="images/men.jpg" alt="" class="img-fluid">
+					</figure>
+					<div class="text">
+					  <span class="text-uppercase">Collections</span>
+					  <h3>Men</h3>
+					</div>
+				  </a>
+				</div>
+			  </div>
+			
+		  </div>
+		</div> -->
+	  </div>
+	  
+	</div>
+  </div>
+
+
+<!-- <section class="ftco-section bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-lg-10 order-md-last">
+				<div class="row">
+					{% for prods in page_obj %}
+					<div class="col-sm-6 col-md-6 col-lg-4 ftco-animate">						
+						<div class="product">
+							<a href="{{ prods.get_absolute_url }}" class="img-prod"><img class="img-fluid" src="{{prods.image.url}}" alt="Colorlib Template">
+								<div class="overlay"></div>
+							</a>
+							<div class="text py-3 px-3">
+								<h3><a href="{{ prods.get_absolute_url }}">{{prods.name}}</a></h3>
+								<div class="d-flex">
+									<div class="pricing">
+										<p class="price"><span>{{prods.price}} - ₽</span></p>
+									</div>
+								</div>
+								<p class="bottom-area d-flex px-3">
+									<form class="add-to-cart text-center py-2 mr-1" action="{% url 'category:adds'%}" method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+										<input type="hidden" name="blog_post_id" value="{{prods.id}}">
+										<input type="hidden" name="user_id" value="{% if user.is_authenticated %}{{request.user.id}}{% else %}None{% endif %}">
+										<input type="hidden" name="url_from" value="{{request.path}}">
+										<a href="{{ prods.get_absolute_url }}" class="btn btn-green add-to-cart">Подробнее</a>
+										<a href="" class="add-to-cart text-center py-2 mr-1">
+											<span>
+												
+													<button type="submit">Добавить в корзину</button>
+											
+											</span>
+											
+										</a>	
+									</form>
+									
+								</p>
+							</div>							
+						</div>					
+					</div>
+					{%endfor%}
+				</div>
+				<div class="row mt-5">
+			  <div class="col text-center">
+				<div class="block-27">
+				  <ul>
+					{% if page_obj.has_previous %}
+					<li>
+						<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+					</li>
+					{% endif %}
+				
+						<span class="current">
+							<li class="active"><span>{{ page_obj.number }}</span></li>
+							
+						</span>
+				
+						{% if page_obj.has_next %}
+						<li>
+							<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+						</li>
+						{% endif %}
+				  </ul>
+				</div>
+			  </div>
+			</div>
+			</div>
+			
+
+			<div class="col-md-4 col-lg-2 sidebar">
+				<div class="sidebar-box-2">
+					<h2 class="heading mb-4"><a href="#">Фильтры</a></h2>
+					<ul>
+						<li>
+							<form method="get">
+								{{ filter.form.as_p }}
+								<input type="submit" class="btn btn-default add-to-cart" value="Применить" label="Применить"></input>
+
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+</section> -->
+
+{% endblock %}

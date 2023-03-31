@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_templatetag %}
+{% block main %}
+{% for i in page %}
+
+  <section class="ftco-section">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-6 mb-5 ftco-animate">
+                  <a href="{{i.image.url}}" class="image-popup"><img src="{{i.image.url}}" class="img-fluid" alt="Colorlib Template"></a>
+              </div>
+              <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                  <h3>{{i.name}}</h3>
+                  <div class="rating d-flex">
+
+                      </div>
+                  <p class="price"><span>{{i.price}} - ₽</span></p>
+                  <p>{{i.description}}</p>
+                  <p></p>
+                        <div class="row mt-4">
+                            <form action="{% url 'category:adds'%}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="blog_post_id" value="{{i.id}}">
+                                <input type="number" name="value" value="1" max="10"/>
+                                <input type="hidden" name="user_id" value="{% if user.is_authenticated %}{{request.user.id}}{% else %}None{% endif %}">
+                                <input type="hidden" name="url_from" value="{{request.path}}">
+                                <p>
+                                    <a type="submit" href="#" class="btn btn-black ">
+                                    <button  class="btn btn-black py-3 px-5">Добавить в корзину</button>
+                                </a>
+                            </p>
+                                
+
+                            </form>
+                          <div class="col-md-6">
+                              <div class="form-group d-flex"></div>
+                          </div>
+                          <div class="w-100"></div>
+                          <div class="input-group col-md-6 d-flex mb-3">
+                            <span class="input-group-btn mr-2">
+
+                            </span>
+                         
+                            <span class="input-group-btn ml-2">
+
+                            </span>
+                          </div>
+                        </div>
+                <div class="w-100"></div>
+                <div class="col-md-12">
+
+                </div>
+            </div>
+
+              </div>
+          </div>
+      </div>
+  </section>
+{% endfor %} 
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+
+{% for i in history %}
+    <div class="main-body"style="margin-right: 300px;"><br>
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  
+                  <div class="row" id="idorder">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Номер заказа</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.id}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row" id="statusorder">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Статус заказа</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.status}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row" id="detailorder">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Детали заказа</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.name}}
+                    </div>
+                  </div>
+                  
+                  <hr>
+                  <div class="row" id="priceorder">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Общая цена</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.price}}₽ [ руб. ]
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">ФИО</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.fio}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Дата оформления заказа</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{i.datecreate}}
+                    </div>
+                  </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    {% endfor %}
+</div> 
+{% endblock %}

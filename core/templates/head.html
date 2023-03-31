@@ -1,0 +1,94 @@
+{% load static %}
+
+<header class="site-navbar" role="banner">
+  <div class="site-navbar-top">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
+        </div>
+
+        <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+          <div class="site-logo">
+            <a href="/" class="js-logo-clone">Шлюшка</a>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 order-3 order-md-3 text-right">
+          <div class="site-top-icons">
+            <ul>
+              <li><a href="{% url 'snippets:profile' %}"><span class="icon icon-person"></span></a></li>
+              <li>
+                <a href="{% url 'snippets:cart_detail' %}" class="site-cart">
+                  <span class="icon icon-shopping_cart"></span>
+                </a>
+              </li> 
+              <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+            </ul>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div> 
+  <nav class="site-navigation text-right text-md-center" role="navigation">
+    <div class="container">
+      <ul class="site-menu js-clone-nav d-none d-md-block">
+        <li><a href="/">Главная</a></li>
+        <li><a href="#">О нас</a></li>
+        <li><a href="#">Контакты</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<!-- <div class="py-1 bg-black">
+    <div class="container">
+        <div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+            <div class="col-lg-12 d-block">
+                <div class="row d-flex">
+                    <div class="col-md pr-4 d-flex topper align-items-center">
+                        <div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-phone2"></span></div>
+                        <span class="text">+7(977)-135-26-12</span>
+                    </div>
+                    <div class="col-md pr-4 d-flex topper align-items-center">
+                        <div class="icon mr-2 d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
+                        <span class="text">arttyyom@gmail.com</span>
+                    </div>
+                    <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
+                        <div class="container text"></div>
+
+                            {% if user.is_authenticated %}
+                            <a class="text nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Привет, {{ user.username }}!</a>
+                            <div class="text dropdown-menu" aria-labelledby="dropdown04">
+                                <a class="dropdown-item" href="{% url 'snippets:profile' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                            </div>
+                            {% else %}
+                            <a class="text" href="{% url 'login' %}">Личный кабинет</a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+   </div>
+   <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="/">Banshee</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Меню
+      </button>
+
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active"><a href="/" class="nav-link">Главная</a></li>
+
+          <li class="nav-item"><a href="{% url 'snippets:orderSubmit' %}" class="nav-link">Хранение</a></li>
+          <li class="nav-item"><a href="{% url 'snippets:contact' %}" class="nav-link">Контакты</a></li>
+
+          <li class="nav-item cta cta-colored"><a href="{% url 'snippets:cart_detail' %}" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav> -->

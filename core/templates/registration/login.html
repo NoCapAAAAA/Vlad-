@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %} Авторизация {% endblock %}
+
+{% block main %}
+        <div class="container">
+          <div class="card o-hidden border-0 shadow-lg my-5">
+              <div class="card-body p-0">
+                  <div class="row" style="margin-right: 300px;">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                      <div class="col-lg-7">
+                          <div class="p-5">
+                              <div class="text-center">
+                                  <h1 class="h4 text-gray-900 mb-4">Добро пожаловать</h1>
+                              </div>
+
+                              <b>{{errors}}</b>
+
+                              <form class="user" method="post" action="">
+                                  {% csrf_token %}
+                                  <div class="form-group ">
+                                    <label for="exampleUsername"></label>
+                                    <input type="text" name="username" placeholder="Имя пользователя" class="form-control form-control-user" id="exampleUsername "
+                                      >
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="password" name="password" class="form-control form-control-user"
+                                          id="exampleInputPassword" placeholder="Пароль">
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="custom-control custom-checkbox small">
+                                          <input type="checkbox" class="custom-control-input" id="customCheck">
+                                          <label class="custom-control-label" for="customCheck">Запомнить
+                                              Meня</label>
+                                      </div>
+                                  </div>
+                                  <script src='https://www.google.com/recaptcha/api.js'></script>
+                                        <div class="form-group g-recaptcha" data-sitekey="6Lf50v8kAAAAAPvQJ0hE7sZkKplSaa7EtTY0I4ZS"></div>
+                                  <button type="submit" class="btn btn-primary btn-user btn-block">
+                                      Войти
+                                  </button>
+                              </form>
+                              <hr>
+                              <div class="text-center">
+                                  <a class="small" href="{% url 'django_registration_register' %}">Создать аккаунт</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+
+
+
+
+{% endblock %}

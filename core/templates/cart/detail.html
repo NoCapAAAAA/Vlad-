@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="site-section">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-md-12" >
+          <div class="site-blocks-table">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+
+                  <th class="product-name">Название</th>
+                  <th class="product-price">Цена</th>
+                  <!-- <th class="product-quantity">Колличество</th> -->
+
+                  <th class="product-remove">Удалить</th>
+                </tr>
+              </thead>
+              {% for prod in cart %}
+              <tbody>
+                <tr>
+
+                  <td class="product-name">
+                    <h2 class="h5 text-black">{{prod.post.name}}</h2>
+                  </td>
+                  <td>{{prod.post.price}}</td>
+
+                  <td>
+                    <!-- <a href="#" class="btn btn-primary btn-sm">X</a> -->
+                    <form action="{% url 'category:remove'%}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="blog_post_id" value="{{prod.post.id}}">
+                        <input type="hidden" name="user_id" value="{% if user.is_authenticated %}{{request.user.id}}{% else %}None{% endif %}">
+                        <input type="hidden" name="url_from" value="{{request.path}}">
+                        <button type="submit" class="btn btn-default add-to-cart">X</button>
+                    </form>
+                </td>
+                </tr>
+              </tbody>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row mb-5">
+            <div class="col-md-6">
+              <a href="/"><span class="btn btn-outline-primary btn-sm btn-block">Продолжить шопит ся</span></a>
+
+            </div>
+          </div>
+
+        </div>
+        {% if sum %}
+        <div class="col-md-6 pl-5">
+          <div class="row justify-content-end">
+            <div class="col-md-7">
+              <div class="row">
+                {% if sum %}
+                <div class="col-md-12 text-right border-bottom mb-5">
+                  <h3 class="text-black h4 text-uppercase">Всего  вконтакте</h3>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <span class="text-black">Итго</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <strong class="text-black">{{sum}}</strong>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col-md-6">
+                  <span class="text-black">Итого</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <strong class="text-black">{{sum}}</strong>
+                </div>
+              </div>
+              {%else%}
+              Корзина пуста
+              {%endif%}
+              <div class="row">
+                <div class="col-md-12">
+                  <a href="{% url 'snippets:orderSubmit' %}"><span class="btn btn-primary btn-lg py-3 btn-block">Оформить заказ</span></a>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%else%}
+        <h4 style="margin-left: 650px;">Корзина пуста</h4>
+        {%endif%}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
