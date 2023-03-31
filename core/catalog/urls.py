@@ -4,7 +4,7 @@ from catalog.views import (MainPageView,
                             ContactPageView, RegisterView, ProfileView, DetailCartView, ProductView, 
                             ProductDetailView, HistoryOrders, HistoryView, ProfieDetailView, UserEditView,
                             TireStoreLandingPageView, HowGetOrderView, MainProduct,
-                            UserTire, AboutView)
+                            UserTire, AboutView, DetailOrderView)
 from . import views as v 
 
 app_name = 'snippets'
@@ -19,8 +19,8 @@ urlpatterns = [
     path('history/', HistoryView.as_view(), name='history'),
     path('profiledetail/', ProfieDetailView.as_view(), name='profiledetail'),
     path('user_edit/', UserEditView.as_view(), name='user_edit'),
-    path('orderSubmit/', TireStoreLandingPageView.as_view(), name='orderSubmit'),
     path('howget/', HowGetOrderView.as_view(), name='howget'),
     path('usertire/', UserTire.as_view(), name='usertire'),
     path('about/', AboutView.as_view(), name='about'),
+    path('history/<int:pk>/', DetailOrderView.as_view(), name='detailord'),
 ]

@@ -125,6 +125,7 @@ class HistoryOrders(models.Model):
     c_address = models.CharField(max_length=64, blank=True, null=True, default=None)
     c_adressetc = models.CharField(max_length=64, blank=True, null=True, default=None)
     c_order_notes = models.CharField(max_length=64, blank=True, null=True, default=None)
+    datecreate = models.DateTimeField('Дата создания', default=timezone.now)
     status = models.CharField('Статус', default='Ожидает подтверждения', max_length=30,
                               choices=Status.choices, blank=True)
     def __str__(self):

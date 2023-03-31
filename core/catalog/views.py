@@ -126,6 +126,15 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         return Product.objects.filter()
 
+class DetailOrderView(DetailView):
+    template_name = "profile/history.html"
+    model = HistoryOrders
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['history'] = HistoryOrders.objects.filter(user = self.request.user)
+        return context
+
+
 #Страница с Личный кабинет пользователя ответвлён на три части 1.Личные даные, 2. История заказов, 3. Шины находящиеся на хранении
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "profile/user_profile.html"
@@ -138,7 +147,7 @@ class HistoryView(LoginRequiredMixin,TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history'] = HistoryOrder.objects.filter(user = self.request.user)
+        context['history'] = HistoryOrders.objects.filter(user = self.request.user)
         return context
 
 class UserTire(LoginRequiredMixin,TemplateView):
