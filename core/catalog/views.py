@@ -13,44 +13,6 @@ from .forms import RegisterForm, UserEditForm
 import datetime
 User = get_user_model()
 
-class SudmitOrder(LoginRequiredMixin,TemplateView):
-    template_name = "orderSubmit/orderSubmit.html"
-    success_url = reverse_lazy('snippets:main_page')
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['cart'] = Cart.objects.prefetch_related('post').filter(user = self.request.user)
-        #переменная с сложной (сложная так-как используется класс F)агрегатной функцией для подсчета суммы товара
-        context['sum'] = Product.objects.filter(cart__user = self.request.user).aggregate(total=Sum(F('price')* F('cart__value')))['total']
-        return context
-
-
-    def post(self, request):
-
-        names = []
-        data = dict(request.POST)
-        name = Product.objects.filter(cart__user=self.request.user).values('name')
-        value = Cart.objects.filter(user=self.request.user).values('value')
-        price = Product.objects.filter(cart__user=self.request.user).aggregate(total=Sum(F('price') * F('cart__value')))
-        for i, z in zip(name, value):
-            names.append(f"{i['name']} - {z['value']} шт\n")
-        #
-        create = HistoryOrders.objects.create(
-                                            user = self.request.user,
-                                            c_companyname=data.get('c_companyname')[0],
-                                            c_address=data.get('c_address')[0],
-                                            price = price['total'],
-                                            c_adressetc=data.get('c_adressetc')[0],
-                                            c_order_notes=data.get('c_order_notes')[0],
-                                            detail=", \n".join(names)
-                                            )
-        if create:
-            print('Круто')
-        else:
-            print('Я тупая вагина')
-        #     carts = Cart.objects.prefetch_related('post').filter(user = self.request.user)
-        #     carts.delete()
-        return HttpResponseRedirect(self.success_url)
-
 #регстрация пользователя криспи форм кастом юзер
 class RegisterView(FormView):
     template_name = 'registration/registration.html'
@@ -97,7 +59,7 @@ class DetailCartView(LoginRequiredMixin,TemplateView):
     template_name = "cart/detail.html"
     success_url = reverse_lazy('snippets:main_page')
 
-    #Вывод данных на страниц
+    # Вывод данных на страниц
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['cart'] = Cart.objects.prefetch_related('post').filter(user = self.request.user)
@@ -105,28 +67,31 @@ class DetailCartView(LoginRequiredMixin,TemplateView):
         context['sum'] = Product.objects.filter(cart__user = self.request.user).aggregate(total=Sum(F('price')* F('cart__value')))['total']
         return context
 
-    #Оформление заказа и добавление его в историю
     def post(self, request):
+
         names = []
         data = dict(request.POST)
-        name = Product.objects.filter(cart__user = self.request.user).values('name')
-        value = Cart.objects.filter(user = self.request.user).values('value')
-
+        name = Product.objects.filter(cart__user=self.request.user).values('name')
+        value = Cart.objects.filter(user=self.request.user).values('value')
+        price = Product.objects.filter(cart__user=self.request.user).aggregate(total=Sum(F('price') * F('cart__value')))
         for i, z in zip(name, value):
             names.append(f"{i['name']} - {z['value']} шт\n")
-
-        price = Product.objects.filter(cart__user = self.request.user).aggregate(total=Sum(F('price')* F('cart__value')))
-        create = HistoryOrder.objects.create(
+        #
+        create = HistoryOrders.objects.create(
                                             user = self.request.user,
+                                            c_companyname=data.get('c_companyname')[0],
+                                            c_address=data.get('c_address')[0],
                                             price = price['total'],
-                                            name = ", \n".join(names)
+                                            c_adressetc=data.get('c_adressetc')[0],
+                                            c_order_notes=data.get('c_order_notes')[0],
+                                            detail=", \n".join(names)
                                             )
-        print(create.id)
-        # HistoryOrder.objects.update()
         if create:
             carts = Cart.objects.prefetch_related('post').filter(user = self.request.user)
             carts.delete()
         return HttpResponseRedirect(self.success_url)
+
+    #Оформление заказа и добавление его в историю
 
 #вырезанный функционал, отдельная страница с товарами, не убирал на всякий случай
 class ProductView(ListView):

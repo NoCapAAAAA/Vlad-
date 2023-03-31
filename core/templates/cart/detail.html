@@ -9,11 +9,8 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-
                   <th class="product-name">Название</th>
                   <th class="product-price">Цена</th>
-                  <!-- <th class="product-quantity">Колличество</th> -->
-
                   <th class="product-remove">Удалить</th>
                 </tr>
               </thead>
@@ -43,60 +40,155 @@
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="row mb-5">
-            <div class="col-md-6">
-              <a href="/"><span class="btn btn-outline-primary btn-sm btn-block">Продолжить шопит ся</span></a>
-
-            </div>
-          </div>
-
-        </div>
-        {% if sum %}
-        <div class="col-md-6 pl-5">
-          <div class="row justify-content-end">
-            <div class="col-md-7">
-              <div class="row">
-                {% if sum %}
-                <div class="col-md-12 text-right border-bottom mb-5">
-                  <h3 class="text-black h4 text-uppercase">Всего  вконтакте</h3>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <span class="text-black">Итго</span>
-                </div>
-                <div class="col-md-6 text-right">
-                  <strong class="text-black">{{sum}}</strong>
-                </div>
-              </div>
-              <div class="row mb-5">
-                <div class="col-md-6">
-                  <span class="text-black">Итого</span>
-                </div>
-                <div class="col-md-6 text-right">
-                  <strong class="text-black">{{sum}}</strong>
-                </div>
-              </div>
-              {%else%}
-              Корзина пуста
-              {%endif%}
-              <div class="row">
-                <div class="col-md-12">
-                  <a href="{% url 'snippets:orderSubmit' %}"><span class="btn btn-primary btn-lg py-3 btn-block">Оформить заказ</span></a>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {%else%}
-        <h4 style="margin-left: 650px;">Корзина пуста</h4>
-        {%endif%}
-
-      </div>
     </div>
-  </div>
+</div>
+{% if sum %}
+<div class="site__body">
+            <div class="checkout block">
+              <form action="" method="post">
+                {% csrf_token %}
+                <div class="container container--max--xl">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 col-xl-7">
+                            <div class="card mb-lg-0">
+                                <div class="card-body card-body--padding--2">
+                                    <h3 class="card-title">Детали заказа</h3>
+                                    <div class="form-group">
+                                        <label for="checkout-company-name">Название компании <span class="text-muted">(Не обязательно)</span></label>
+                                        <input type="text" name="c_companyname" class="form-control" id="checkout-company-name" placeholder="Название компании">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checkout-street-address">Улица</label>
+                                        <input type="text" name="c_address" class="form-control" id="checkout-street-address" placeholder="Улица">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checkout-address">Дом, строение и тд.<span class="text-muted">Необязательно</span></label>
+                                        <input type="text" name="c_adressetc" class="form-control" id="checkout-address">
+                                    </div>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-body card-body--padding--2">
+                                    <div class="form-group">
+                                        <label for="checkout-comment">Комментарий к заказу <span class="text-muted">(Не обязательно)</span></label>
+                                        <textarea id="checkout-comment" name="c_order_notes" class="form-control" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                            <div class="card mb-0">
+                                <div class="card-body card-body--padding--2">
+                                    <h3 class="card-title">Ваш заказ</h3>
+                                    <table class="checkout__totals">
+                                        <thead class="checkout__totals-header">
+                                            <tr>
+                                                <th>Услуга</th>
+                                                <th>Цена</th>
+                                            </tr>
+                                        </thead>
+                                       {% for prod in cart %}
+                                        <tbody class="checkout__totals-products">
+
+                                            <tr>
+                                                <td>{{prod.post.name}}</td>
+                                                <td>{{prod.post.price}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                        {% endfor %}
+
+                                        <tfoot class="checkout__totals-footer">
+                                            <tr>
+                                                <th>Итого</th>
+                                              {% if sum %}
+                                                <td>{{sum}}</td>
+                                              {% endif %}
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div class="checkout__payment-methods payment-methods">
+                                        <ul class="payment-methods__list">
+                                            <li class="payment-methods__item payment-methods__item--active">
+                                                <label class="payment-methods__item-header">
+                                                    <span class="payment-methods__item-radio input-radio">
+                                                        <span class="input-radio__body">
+                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio" checked>
+                                                            <span class="input-radio__circle"></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="payment-methods__item-title">Direct bank transfer</span>
+                                                </label>
+                                                <div class="payment-methods__item-container">
+                                                    <div class="payment-methods__item-details text-muted">
+                                                        Make your payment directly into our bank account. Please use your Order ID as the payment
+                                                        reference. Your order will not be shipped until the funds have cleared in our account.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="payment-methods__item">
+                                                <label class="payment-methods__item-header">
+                                                    <span class="payment-methods__item-radio input-radio">
+                                                        <span class="input-radio__body">
+                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                            <span class="input-radio__circle"></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="payment-methods__item-title">Check payments</span>
+                                                </label>
+                                                <div class="payment-methods__item-container">
+                                                    <div class="payment-methods__item-details text-muted">
+                                                        Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="payment-methods__item">
+                                                <label class="payment-methods__item-header">
+                                                    <span class="payment-methods__item-radio input-radio">
+                                                        <span class="input-radio__body">
+                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                            <span class="input-radio__circle"></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="payment-methods__item-title">Cash on delivery</span>
+                                                </label>
+                                                <div class="payment-methods__item-container">
+                                                    <div class="payment-methods__item-details text-muted">
+                                                        Pay with cash upon delivery.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="payment-methods__item">
+                                                <label class="payment-methods__item-header">
+                                                    <span class="payment-methods__item-radio input-radio">
+                                                        <span class="input-radio__body">
+                                                            <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                            <span class="input-radio__circle"></span>
+                                                        </span>
+                                                    </span>
+                                                    <span class="payment-methods__item-title">PayPal</span>
+                                                </label>
+                                                <div class="payment-methods__item-container">
+                                                    <div class="payment-methods__item-details text-muted">
+                                                        Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-xl btn-block">Оформить заказа</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="block-space block-space--layout--before-footer"></div>
+        </div>
+{% else %}
+<div class="site__body">
+<h1>Корзина пуста</h1>
+</div>
+{% endif %}
 {% endblock %}

@@ -3,7 +3,7 @@ from django.urls import path, include
 from catalog.views import (MainPageView, 
                             ContactPageView, RegisterView, ProfileView, DetailCartView, ProductView, 
                             ProductDetailView, HistoryOrders, HistoryView, ProfieDetailView, UserEditView,
-                            TireStoreLandingPageView, HowGetOrderView, MainProduct,SudmitOrder,
+                            TireStoreLandingPageView, HowGetOrderView, MainProduct,
                             UserTire, AboutView)
 from . import views as v 
 
@@ -21,7 +21,6 @@ urlpatterns = [
     path('user_edit/', UserEditView.as_view(), name='user_edit'),
     path('orderSubmit/', TireStoreLandingPageView.as_view(), name='orderSubmit'),
     path('howget/', HowGetOrderView.as_view(), name='howget'),
-    path('SudmitOrder/', SudmitOrder.as_view(), name='SudmitOrder'),
     path('usertire/', UserTire.as_view(), name='usertire'),
     path('about/', AboutView.as_view(), name='about'),
 ]
