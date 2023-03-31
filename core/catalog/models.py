@@ -130,4 +130,7 @@ class HistoryOrders(models.Model):
                               choices=Status.choices, blank=True)
     def __str__(self):
         return f'{self.user}|{self.user}'
+
+    def get_absolute_url(self):
+        return reverse('detailOrder', kwargs={'detailOrder_pk': self.pk})
     

@@ -1,4 +1,104 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block main %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/owl-carousel/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/photoswipe/photoswipe.css' %}">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/photoswipe/default-skin/default-skin.css' %}">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/select2/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{%static 'css/userProfile/css/style.css' %}">
 
+    <link rel="stylesheet" href="{%static 'css/userProfile/css/style.header-spaceship-variant-one.css' %}" media="(min-width: 1200px)">
+    <link rel="stylesheet" href="{%static 'css/userProfile/css/style.mobile-header-variant-one.css' %}" media="(max-width: 1199px)">
+    <link rel="stylesheet" href="{%static 'css/userProfile/vendor/fontawesome/css/all.min.css' %}">
+<div class="site__body">
+  <div class="block-space block-space--layout--after-header"></div>
+  <div class="block">
+    <div class="container container--max--xl">
+      <div class="row">
+        <div class="col-12 col-lg-3 d-flex">
+          <div class="account-nav flex-grow-1">
+            <h4 class="account-nav__title">Навигация</h4>
+            <ul class="account-nav__list">
+              <li class="account-nav__item ">
+                <a href="{% url 'snippets:profile' %}">Панель управления</a>
+              </li>
+              <li class="account-nav__item ">
+                <a href="{% url 'snippets:user_edit' %}">Редактировать профиль</a>
+              </li>
+              <li class="account-nav__item ">
+                <a href="{% url 'snippets:history' %}">История заказов</a>
+              </li>
+              <li class="account-nav__divider" role="presentation"></li>
+              <li class="account-nav__item ">
+                <a href="{% url 'logout' %}">Выйти</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+          {% for i in detail %}
+        <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+          <div class="card">
+            <div class="order-header">
+              <div class="order-header__actions">
+                <a href="{% url 'snippets:history' %}" class="btn btn-xs btn-secondary">Назад к списску</a>
+              </div>
+              <h5 class="order-header__title">Номер заказа #{{i.id}}</h5>
+              <div class="order-header__subtitle">
+                Был оформлен
+                <mark>{{i.datecreate}}</mark>
+              </div>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-table">
+              <div class="table-responsive-sm">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Детали заказа</th>
+
+                    </tr>
+                  </thead>
+                  <tbody class="card-table__body card-table__body--merge-rows">
+                    <tr>
+                      <td>
+                        <h6>Услуги</h6>
+                          {{i.detail}} <br>
+                        <h6>Наименование компании</h6>
+                          {{i.c_companyname}}<br>
+                        <h6>Алрес</h6>
+                          {{i.c_address}}<br>
+                        <h6>Доп адлрес</h6>
+                          {{i.c_adressetc}}<br>
+                        <h6>Коментарий к заказу</h6>
+                          {{i.c_order_notes}}<br>
+                        <h6>Статус заказа</h6>
+                          {{i.status}}<br>
+
+
+                      </td>
+
+                    </tr>
+
+                  </tbody>
+
+                  <tfoot>
+                    <tr>
+                      <th>Итого</th>
+                      <td>{{i.price}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="block-space block-space--layout--before-footer"></div>
+</div>
 {% endblock %}

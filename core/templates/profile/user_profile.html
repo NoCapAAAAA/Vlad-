@@ -24,28 +24,13 @@
                                 <h4 class="account-nav__title">Навигация</h4>
                                 <ul class="account-nav__list">
                                     <li class="account-nav__item  account-nav__item--active ">
-                                        <a href="account-dashboard.html">Панель управления</a>
-                                    </li>
-                                    <li class="account-nav__item ">
-                                        <a href="account-garage.html">Garage</a>
+                                        <a href="{% url 'snippets:profile' %}">Панель управления</a>
                                     </li>
                                     <li class="account-nav__item ">
                                         <a href="{% url 'snippets:user_edit' %}">Редактировать профиль</a>
                                     </li>
                                     <li class="account-nav__item ">
                                         <a href="{% url 'snippets:history' %}">История заказов</a>
-                                    </li>
-                                    <li class="account-nav__item ">
-                                        <a href="account-order-details.html">Детали заказов</a>
-                                    </li>
-                                    <li class="account-nav__item ">
-                                        <a href="account-addresses.html">Адерса</a>
-                                    </li>
-                                    <li class="account-nav__item ">
-                                        <a href="account-edit-address.html">Изменить адрес</a>
-                                    </li>
-                                    <li class="account-nav__item ">
-                                        <a href="">Изменить пароль</a>
                                     </li>
                                     <li class="account-nav__divider" role="presentation"></li>
                                     <li class="account-nav__item ">

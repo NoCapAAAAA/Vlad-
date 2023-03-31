@@ -118,7 +118,6 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(kwargs['object'])
         context['page'] = Product.objects.filter()
         context['filter'] = SnippetFiter(self.request.GET, queryset=self.get_queryset())
         return context
@@ -127,12 +126,14 @@ class ProductDetailView(DetailView):
         return Product.objects.filter()
 
 class DetailOrderView(DetailView):
-    template_name = "profile/history.html"
+    template_name = "profile/orderdetail.html"
     model = HistoryOrders
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['history'] = HistoryOrders.objects.filter(user = self.request.user)
+        context['detail'] = HistoryOrders.objects.filter(pk=self.kwargs['pk'])
+        print(context)
         return context
+
 
 
 #Страница с Личный кабинет пользователя ответвлён на три части 1.Личные даные, 2. История заказов, 3. Шины находящиеся на хранении

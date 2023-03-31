@@ -21,35 +21,20 @@
       <div class="row">
         <div class="col-12 col-lg-3 d-flex">
           <div class="account-nav flex-grow-1">
-            <h4 class="account-nav__title">Navigation</h4>
+            <h4 class="account-nav__title">Навигация</h4>
             <ul class="account-nav__list">
               <li class="account-nav__item ">
-                <a href="account-dashboard.html">Dashboard</a>
+                <a href="{% url 'snippets:profile' %}">Панель управления</a>
               </li>
               <li class="account-nav__item ">
-                <a href="account-garage.html">Garage</a>
-              </li>
-              <li class="account-nav__item ">
-                <a href="account-profile.html">Edit Profile</a>
+                <a href="{% url 'snippets:user_edit' %}">Редактировать профиль</a>
               </li>
               <li class="account-nav__item  account-nav__item--active ">
-                <a href="account-orders.html">Order History</a>
-              </li>
-              <li class="account-nav__item ">
-                <a href="account-order-details.html">Order Details</a>
-              </li>
-              <li class="account-nav__item ">
-                <a href="account-addresses.html">Addresses</a>
-              </li>
-              <li class="account-nav__item ">
-                <a href="account-edit-address.html">Edit Address</a>
-              </li>
-              <li class="account-nav__item ">
-                <a href="account-password.html">Password</a>
+                <a href="{% url 'snippets:history' %}">История заказов</a>
               </li>
               <li class="account-nav__divider" role="presentation"></li>
               <li class="account-nav__item ">
-                <a href="account-login.html">Logout</a>
+                <a href="{% url 'logout' %}">Выйти</a>
               </li>
             </ul>
           </div>
@@ -57,7 +42,7 @@
         <div class="col-12 col-lg-9 mt-4 mt-lg-0">
           <div class="card">
             <div class="card-header">
-              <h5>Order History</h5>
+              <h5>История заказов</h5>
             </div>
             <div class="card-divider"></div>
             <div class="card-table">
@@ -65,16 +50,16 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Order</th>
-                      <th>Date</th>
-                      <th>Status</th>
-                      <th>Total</th>
+                      <th>Номер заказа</th>
+                      <th>Дата оформления</th>
+                      <th>Статус</th>
+                      <th>Стоимость</th>
                     </tr>
                   </thead>
                     {% for i in history %}
                   <tbody>
                     <tr>
-                      <td><a href="{{ i.get_absolute_url }}">#{{i.id}}</a></td>
+                      <td><a href="{{ i.pk }}">#{{i.id}}</a></td>
                       <td>{{i.datecreate}}</td>
                       <td>{{i.status}}</td>
                       <td>{{i.price}}</td>
