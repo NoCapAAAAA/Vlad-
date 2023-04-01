@@ -66,7 +66,7 @@ class DetailCartView(LoginRequiredMixin,TemplateView):
         #переменная с сложной (сложная так-как используется класс F)агрегатной функцией для подсчета суммы товара
         context['sum'] = Product.objects.filter(cart__user = self.request.user).aggregate(total=Sum(F('price')* F('cart__value')))['total']
         return context
-
+    #Оформление заказа
     def post(self, request):
 
         names = []
@@ -91,39 +91,6 @@ class DetailCartView(LoginRequiredMixin,TemplateView):
             carts.delete()
         return HttpResponseRedirect(self.success_url)
 
-    #Оформление заказа и добавление его в историю
-
-#вырезанный функционал, отдельная страница с товарами, не убирал на всякий случай
-class ProductView(ListView):
-    template_name = 'product.html'
-    paginate_by = 3
-    model = Product
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page'] = Product.objects.all()
-        context['filter'] = SnippetFiter(self.request.GET, queryset=self.get_queryset())
-        return context
-
-    def get_queryset(self, **kwargs):
-        search_results = SnippetFiter(self.request.GET, self.queryset)
-        self.no_search_result = True if not search_results.qs else False
-        return search_results.qs.distinct() or self.model.objects.all()
-
-#вырезанный функционал, отдельная страница с товарами, не убирал на всякий случай
-class ProductDetailView(DetailView):
-    template_name = 'product_detail.html'
-    paginate_by = 3
-    model = Product
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page'] = Product.objects.filter()
-        context['filter'] = SnippetFiter(self.request.GET, queryset=self.get_queryset())
-        return context
-
-    def get_queryset(self):
-        return Product.objects.filter()
 
 class DetailOrderView(DetailView):
     template_name = "profile/orderdetail.html"
@@ -135,10 +102,13 @@ class DetailOrderView(DetailView):
         return context
 
 
-
-#Страница с Личный кабинет пользователя ответвлён на три части 1.Личные даные, 2. История заказов, 3. Шины находящиеся на хранении
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = "profile/user_profile.html"
+    model = HistoryOrders
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['lasthis'] = HistoryOrders.objects.filter().order_by('-pk')[:3]
+        return context
 
 
 
@@ -151,13 +121,6 @@ class HistoryView(LoginRequiredMixin,TemplateView):
         context['history'] = HistoryOrders.objects.filter(user = self.request.user)
         return context
 
-class UserTire(LoginRequiredMixin,TemplateView):
-    template_name = "profile/usertire.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tire'] = TireStore.objects.filter(user = self.request.user)
-        return context
     
 #Страница с историей
 class ProfieDetailView(LoginRequiredMixin,TemplateView):
@@ -178,13 +141,7 @@ class LoginView(TemplateView):
         # проверка валидности reCAPTCHA
         if self.request.recaptcha_is_valid:
             return HttpResponseRedirect(self.get_success_url())
-        
 
-class TireStoreLandingPageView(TemplateView):
-    template_name = "orderSubmit/orderSubmit.html"
-
-class HowGetOrderView(TemplateView):
-    template_name = "howget.html"
 
 class MainProduct(TemplateView):
     template_name = "main.html"
